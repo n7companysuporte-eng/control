@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>N7 Vendas Pro</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#f5f7fa;
+display:flex;
+min-height:100vh;
+}
+
+.sidebar{
+width:260px;
+background:#0d7f4f;
+color:white;
+padding:20px;
+position:fixed;
+height:100%;
+overflow:auto;
+}
+
+.logo{
+font-size:24px;
+font-weight:700;
+margin-bottom:10px;
+}
+
+.logo span{
+color:#c6ffd6;
+}
+
+.frase{
+font-size:12px;
+margin-bottom:30px;
+opacity:.9;
+}
+
+.menu button{
+width:100%;
+margin-bottom:10px;
+padding:12px;
+border:none;
+border-radius:10px;
+background:rgba(255,255,255,.1);
+color:white;
+cursor:pointer;
+font-weight:500;
+transition:.3s;
+}
+
+.menu button:hover{
+background:white;
+color:#0d7f4f;
+}
+
+.main{
+margin-left:260px;
+width:100%;
+padding:20px;
+}
+
+.topo{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+.titulo{
+font-size:28px;
+font-weight:700;
+color:#0d7f4f;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+margin-bottom:20px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:15px;
+box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.card h3{
+font-size:14px;
+color:#666;
+margin-bottom:10px;
+}
+
+.card h2{
+color:#0d7f4f;
+font-size:28px;
+}
+
+.section{
+display:none;
+}
+
+.section.active{
+display:block;
+}
+
+.form-box{
+background:white;
+padding:20px;
+border-radius:15px;
+box-shadow:0 2px 10px rgba(0,0,0,.08);
+margin-bottom:20px;
+}
+
+.form-box h2{
+margin-bottom:15px;
+color:#0d7f4f;
+}
+
+input,select{
+width:100%;
+padding:12px;
+border:1px solid #ddd;
+border-radius:10px;
+margin-bottom:10px;
+}
+
+.btn{
+background:#0d7f4f;
+color:white;
+border:none;
+padding:12px;
+border-radius:10px;
+cursor:pointer;
+font-weight:600;
+}
+
+.btn:hover{
+background:#0b6c42;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+background:white;
+border-radius:15px;
+overflow:hidden;
+}
+
+table th{
+background:#0d7f4f;
+color:white;
+padding:12px;
+}
+
+table td{
+padding:10px;
+border-bottom:1px solid #eee;
+}
+
+.badge{
+padding:6px 12px;
+border-radius:20px;
+font-size:12px;
+font-weight:600;
+}
+
+.pago{
+background:#d4edda;
+color:#155724;
+}
+
+.aberto{
+background:#fff3cd;
+color:#856404;
+}
+
+.atrasado{
+background:#f8d7da;
+color:#721c24;
+}
+
+.footer-text{
+margin-top:20px;
+text-align:center;
+font-size:12px;
+color:#777;
+}
+
+@media(max-width:900px){
+
+.sidebar{
+position:relative;
+width:100%;
+height:auto;
+}
+
+.main{
+margin-left:0;
+}
+
+body{
+flex-direction:column;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<div class="logo">
+N7 <span>Vendas Pro</span>
+</div>
+
+<div class="frase">
+"O Senhor é o meu pastor e nada me faltará."
+</div>
+
+<div class="menu">
+
+<button onclick="abrirAba('dashboard')">
+Dashboard
+</button>
+
+<button onclick="abrirAba('clientes')">
+Clientes
+</button>
+
+<button onclick="abrirAba('vendas')">
+Vendas
+</button>
+
+<button onclick="abrirAba('promissorias')">
+Promissórias
+</button>
+
+<button onclick="abrirAba('comissoes')">
+Comissões
+</button>
+
+<button onclick="abrirAba('cidades')">
+Cidades
+</button>
+
+</div>
+
+</div>
+
+<div class="main">
+
+<div id="dashboard" class="section active">
+
+<div class="topo">
+<div class="titulo">
+Dashboard Financeiro
+</div>
+</div>
+
+<div class="cards">
+
+<div class="card">
+<h3>Faturamento Bruto</h3>
+<h2 id="fatBruto">R$ 0,00</h2>
+</div>
+
+<div class="card">
+<h3>Comissão Total</h3>
+<h2 id="comissaoTotal">R$ 0,00</h2>
+</div>
+
+<div class="card">
+<h3>Prev. Próximo Mês</h3>
+<h2 id="prevMes">R$ 0,00</h2>
+</div>
+
+<div class="card">
+<h3>Clientes</h3>
+<h2 id="totalClientes">0</h2>
+</div>
+
+</div>
+
+</div>
+
+<div id="clientes" class="section">
+
+<div class="form-box">
+
+<h2>Cadastrar Cliente</h2>
+
+<input type="text" id="clienteNome" placeholder="Nome do Cliente">
+
+<input type="text" id="clienteCidade" placeholder="Cidade">
+
+<input type="text" id="clienteTelefone" placeholder="Telefone">
+
+<button class="btn" onclick="salvarCliente()">
+Salvar Cliente
+</button>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Nome</th>
+<th>Cidade</th>
+<th>Telefone</th>
+</tr>
+
+</thead>
+
+<tbody id="listaClientes">
+</tbody>
+
+</table>
+
+</div>
+<div id="vendas" class="section">
+
+<div class="form-box">
+
+<h2>Cadastrar Venda</h2>
+
+<select id="vendaCliente">
+</select>
+
+<input type="number" id="valorVenda" placeholder="Valor da Venda">
+
+<select id="percentualComissao">
+
+<option value="15">15%</option>
+<option value="20">20%</option>
+<option value="25">25%</option>
+<option value="30">30%</option>
+
+</select>
+
+<select id="formaPagamento" onchange="mostrarParcelas()">
+
+<option value="avista">À Vista</option>
+<option value="promissoria">Promissória</option>
+
+</select>
+
+<select id="parcelas" style="display:none;">
+
+<option value="1">1x</option>
+<option value="2">2x</option>
+<option value="3">3x</option>
+
+</select>
+
+<input type="date" id="dataVencimento">
+
+<button class="btn" onclick="salvarVenda()">
+Salvar Venda
+</button>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Cliente</th>
+<th>Valor</th>
+<th>Comissão</th>
+<th>Pagamento</th>
+<th>Parcelas</th>
+</tr>
+
+</thead>
+
+<tbody id="listaVendas">
+</tbody>
+
+</table>
+
+</div>
+
+<div id="promissorias" class="section">
+
+<div class="form-box">
+
+<h2>Controle de Promissórias</h2>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Cliente</th>
+<th>Valor</th>
+<th>Parcelas</th>
+<th>Vencimento</th>
+<th>Status</th>
+</tr>
+
+</thead>
+
+<tbody id="listaPromissorias">
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<div id="comissoes" class="section">
+
+<div class="cards">
+
+<div class="card">
+
+<h3>Comissão Acumulada</h3>
+
+<h2 id="valorComissao">
+R$ 0,00
+</h2>
+
+</div>
+
+<div class="card">
+
+<h3>Comissão Prevista Próximo Mês</h3>
+
+<h2 id="valorPrevisto">
+R$ 0,00
+</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div id="cidades" class="section">
+
+<div class="form-box">
+
+<h2>Ranking de Cidades</h2>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Cidade</th>
+<th>Clientes</th>
+</tr>
+
+</thead>
+
+<tbody id="listaCidades">
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<div class="footer-text">
+N7 Company © 2026 - Sistema Inteligente de Vendas
+</div>
+
+</div>
+
+<script>
+
+let clientes =
+JSON.parse(localStorage.getItem("clientes")) || [];
+
+let vendas =
+JSON.parse(localStorage.getItem("vendas")) || [];
+
+function abrirAba(id){
+
+document
+.querySelectorAll(".section")
+.forEach(sec=>sec.classList.remove("active"));
+
+document
+.getElementById(id)
+.classList.add("active");
+
+}
+
+function mostrarParcelas(){
+
+const forma =
+document.getElementById("formaPagamento").value;
+
+document.getElementById("parcelas").style.display =
+forma === "promissoria"
+? "block"
+: "none";
+
+}
+
+function salvarCliente(){
+
+const nome =
+document.getElementById("clienteNome").value;
+
+const cidade =
+document.getElementById("clienteCidade").value;
+
+const telefone =
+document.getElementById("clienteTelefone").value;
+
+if(!nome || !cidade){
+alert("Preencha os campos.");
+return;
+}
+
+clientes.push({
+nome,
+cidade,
+telefone
+});
+
+localStorage.setItem(
+"clientes",
+JSON.stringify(clientes)
+);
+
+atualizarTela();
+
+document.getElementById("clienteNome").value="";
+document.getElementById("clienteCidade").value="";
+document.getElementById("clienteTelefone").value="";
+
+}
+
+function salvarVenda(){
+
+const cliente =
+document.getElementById("vendaCliente").value;
+
+const valor =
+Number(document.getElementById("valorVenda").value);
+
+const percentual =
+Number(document.getElementById("percentualComissao").value);
+
+const pagamento =
+document.getElementById("formaPagamento").value;
+
+const parcelas =
+document.getElementById("parcelas").value;
+
+const vencimento =
+document.getElementById("dataVencimento").value;
+
+if(!cliente || valor<=0){
+alert("Informe os dados da venda.");
+return;
+}
+
+const comissao =
+valor * percentual / 100;
+
+vendas.push({
+
+cliente,
+valor,
+percentual,
+comissao,
+pagamento,
+parcelas,
+vencimento
+
+});
+
+localStorage.setItem(
+"vendas",
+JSON.stringify(vendas)
+);
+
+atualizarTela();
+
+document.getElementById("valorVenda").value="";
+}
+
+function atualizarTela(){
+
+let tabelaClientes =
+document.getElementById("listaClientes");
+
+tabelaClientes.innerHTML = "";
+
+clientes.forEach(c=>{
+
+tabelaClientes.innerHTML += `
+<tr>
+<td>${c.nome}</td>
+<td>${c.cidade}</td>
+<td>${c.telefone}</td>
+</tr>
+`;
+
+});
+
+let selectCliente =
+document.getElementById("vendaCliente");
+
+selectCliente.innerHTML = "";
+
+clientes.forEach(c=>{
+
+selectCliente.innerHTML += `
+<option value="${c.nome}">
+${c.nome}
+</option>
+`;
+
+});
+
+let tabelaVendas =
+document.getElementById("listaVendas");
+
+tabelaVendas.innerHTML = "";
+
+let tabelaPromissorias =
+document.getElementById("listaPromissorias");
+
+tabelaPromissorias.innerHTML = "";
+
+let faturamento = 0;
+let comissaoTotal = 0;
+let previsaoMes = 0;
+
+vendas.forEach(v=>{
+
+faturamento += Number(v.valor);
+
+comissaoTotal += Number(v.comissao);
+
+if(v.vencimento){
+
+let hoje = new Date();
+
+let proxMes = hoje.getMonth()+1;
+
+let ano = hoje.getFullYear();
+
+let venc = new Date(v.vencimento);
+
+if(
+venc.getMonth() === proxMes &&
+venc.getFullYear() === ano
+){
+previsaoMes += Number(v.comissao);
+}
+
+}
+
+tabelaVendas.innerHTML += `
+<tr>
+<td>${v.cliente}</td>
+<td>R$ ${Number(v.valor).toFixed(2)}</td>
+<td>R$ ${Number(v.comissao).toFixed(2)}</td>
+<td>${v.pagamento}</td>
+<td>${v.parcelas}x</td>
+</tr>
+`;
+
+let status = "Em Dia";
+let classe = "pago";
+
+if(v.vencimento){
+
+let hoje = new Date();
+
+let venc = new Date(v.vencimento);
+
+let diferenca =
+Math.ceil(
+(venc-hoje)/(1000*60*60*24)
+);
+
+if(diferenca < 0){
+
+status = "Atrasada";
+classe = "atrasado";
+
+}
+else if(diferenca <= 5){
+
+status = "Vencendo";
+classe = "aberto";
+
+}
+
+}
+
+if(v.pagamento === "promissoria"){
+
+tabelaPromissorias.innerHTML += `
+<tr>
+<td>${v.cliente}</td>
+<td>R$ ${Number(v.valor).toFixed(2)}</td>
+<td>${v.parcelas}x</td>
+<td>${v.vencimento}</td>
+<td>
+<span class="badge ${classe}">
+${status}
+</span>
+</td>
+</tr>
+`;
+
+}
+
+});
+
+document.getElementById("fatBruto").innerHTML =
+"R$ " + faturamento.toLocaleString('pt-BR',{
+minimumFractionDigits:2
+});
+
+document.getElementById("comissaoTotal").innerHTML =
+"R$ " + comissaoTotal.toLocaleString('pt-BR',{
+minimumFractionDigits:2
+});
+
+document.getElementById("prevMes").innerHTML =
+"R$ " + previsaoMes.toLocaleString('pt-BR',{
+minimumFractionDigits:2
+});
+
+document.getElementById("valorComissao").innerHTML =
+"R$ " + comissaoTotal.toLocaleString('pt-BR',{
+minimumFractionDigits:2
+});
+
+document.getElementById("valorPrevisto").innerHTML =
+"R$ " + previsaoMes.toLocaleString('pt-BR',{
+minimumFractionDigits:2
+});
+
+document.getElementById("totalClientes").innerHTML =
+clientes.length;
+
+gerarRankingCidades();
+
+}
+
+function gerarRankingCidades(){
+
+let cidades = {};
+
+clientes.forEach(c=>{
+
+if(!cidades[c.cidade]){
+cidades[c.cidade]=0;
+}
+
+cidades[c.cidade]++;
+
+});
+
+let tabela =
+document.getElementById("listaCidades");
+
+tabela.innerHTML="";
+
+Object.keys(cidades).forEach(cidade=>{
+
+tabela.innerHTML += `
+<tr>
+<td>${cidade}</td>
+<td>${cidades[cidade]}</td>
+</tr>
+`;
+
+});
+
+}
+
+atualizarTela();
+
+</script>
+
+</body>
+</html>
